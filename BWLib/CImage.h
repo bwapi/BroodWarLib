@@ -3,6 +3,8 @@
 #include "IScriptAnimation.h"
 #include "RLEType.h"
 #include "ImageNumber.h"
+#include "CList.h"
+
 #include <cstddef>
 
 namespace BW
@@ -23,21 +25,20 @@ namespace BW
 
     //grpFrame      *getCurrentFrame() const;
 
-    CImage*      prev;
-    CImage*      next;
-    ImageNumber  imageNumber;    // officially "uwNo"
-    RLEType      drawType;    // officially "ubRLE"
-    u8           direction;
-    u16          flags;
-    /*  0x0001  - Redraw
-        0x0002  - Flipped/Mirrored
-        0x0004  - FreezeY
-        0x0008  - Has rotation frames
-        0x0010  - FullIScript
-        0x0020  - Clickable
-        0x0040  - Hidden/Invisible (don't draw)
-        0x0080  - UseParentLO
-        */
+    CLink<CImage> link;
+    ImageNumber   imageNumber;    // officially "uwNo"
+    RLEType       drawType;    // officially "ubRLE"
+    u8            direction;
+    u16           flags;
+                  /*  0x0001  - Redraw
+                      0x0002  - Flipped/Mirrored
+                      0x0004  - FreezeY
+                      0x0008  - Has rotation frames
+                      0x0010  - FullIScript
+                      0x0020  - Clickable
+                      0x0040  - Hidden/Invisible (don't draw)
+                      0x0080  - UseParentLO
+                  */
     point<s8>        offset;
     u16              iscriptHeader;
     u16              iscriptOffset;
@@ -58,8 +59,7 @@ namespace BW
 
   static_assert(sizeof(CImage) == 64, "BW::CImage is incorrect.");
 #define OFFSET_ASSERT(offset, member) static_assert(offset == offsetof(CImage, member), "CImage member not at correct offset")
-  OFFSET_ASSERT(0x00, prev);
-  OFFSET_ASSERT(0x04, next);
+  OFFSET_ASSERT(0x00, link);
   OFFSET_ASSERT(0x08, imageNumber);
   OFFSET_ASSERT(0x0A, drawType);
   OFFSET_ASSERT(0x0B, direction);

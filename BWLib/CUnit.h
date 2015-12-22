@@ -10,6 +10,7 @@
 #include "CFlingy.h"
 #include "UpgradeType.h"
 #include "TechType.h"
+#include "CList.h"
 
 namespace BW
 {
@@ -29,18 +30,11 @@ namespace BW
     //int getGroundWeaponCooldown() const;
     //int getAirWeaponCooldown() const;
 
-    u32      shields;      // BW shows this value/256, possibly not u32?
-    UnitType unitType;        // Specifies the type of unit.
-
-    // CLink<CUnit> player_link;
-    CUnit*  previousPlayerUnit;
-    CUnit*  nextPlayerUnit;
-
-    CUnit*  subUnit;
-
-    // CLink<COrder> orderQueue_link;
-    COrder* orderQueueHead;
-    COrder* orderQueueTail;
+    u32           shields;      // BW shows this value/256, possibly not u32?
+    UnitType      unitType;        // Specifies the type of unit.
+    CLink<CUnit>  playerLink;
+    CUnit*        subUnit;
+    CLink<COrder> orderQueueLink;
 
     CUnit*  autoTargetUnit;       // The auto-acquired target (Note: This field is actually used for different targets internally, especially by the AI)
     CUnit*  connectedUnit;        // Addon is connected to building (addon has conntected building, but not in other direction  (officially "pAttached")
@@ -62,12 +56,12 @@ namespace BW
 
     u16         currentButtonSet;       // The u16 is a guess, used to be u8
     bool        isCloaked;
-    UnitMovementState movementState;          // A value based on conditions related to pathing, see Path.h for info
+    UnitMovementState movementState;    // A value based on conditions related to pathing, see Path.h for info
     UnitType    buildQueue[5];          //< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. 
     u16         energy;                 //< Energy Position   // officially "xwMagic"
     u8          buildQueueSlot;         //< Index of active unit in #buildQueue. 
     u8          uniquenessIdentifier;   //< A byte used to determine uniqueness of the unit
-    OrderType   secondaryOrderType;       //< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) 
+    OrderType   secondaryOrderType;     //< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) 
     u8          buildingOverlayState;   // 0 means the building has the largest amount of fire/blood
     u16         hpGain;                 //< hp gained on construction or repair
     u16         shieldGain;             //< Shield gain on construction
@@ -92,11 +86,9 @@ namespace BW
 
       struct
       {
-        CUnit*  parent;
-        // CLink<CUnit> hanger_link;
-        CUnit*  prev;
-        CUnit*  next;
-        bool    inHanger;   // (is this wrong?)
+        CUnit*        parent;
+        CLink<CUnit>  hangerLink;
+        bool          inHanger;   // (is this wrong?)
       } fighter;  // also applies to scarab
 
       struct
@@ -140,28 +132,20 @@ namespace BW
         u8      resourceGroup;
         u8      resourceBelongsToAI;
       } resource;  // When the unit is resource container
-      struct { CUnit*   exit; } nydus; // connected nydius canal
-      struct { CSprite* nukeDot; } ghost;
+      struct { CUnit*   pExit; } nydus; // connected nydius canal
+      struct { CSprite* pNukeDot; } ghost;
       struct { CSprite* pPowerTemplate; } pylon;
       struct
       {
         CUnit* pNuke;   // attached nuke    // official name
-        bool bReady;    // official name
+        bool   bReady;  // official name
       } silo;   // Should be "CUnit::Silo::"
-      struct
-      {
-        rect<s16> larvaSpawnInfluence; // Influenced based on resource return location
-      } hatchery;
-      struct
-      {
-        Target spawnTarget;
-      } powerup;
+      struct { rect<s16> larvaSpawnInfluence; } hatchery; // Influenced based on resource return location
+      struct { Target spawnTarget; } powerup;
       struct
       {
         CUnit* harvestTarget;
-        // CLINK<CUnit> harvest_link;
-        CUnit* prevHarvestUnit;       // When there is a gather conflict
-        CUnit* nextHarvestUnit;
+        CLink<CUnit> harvestLink;       // When there is a gather conflict
       } gatherer; //there is also a "CUnit::WorkerList::pHarvestBldg" somewhere
     };
     u32           statusFlags;
@@ -170,23 +154,13 @@ namespace BW
     u8            secondaryOrderState;
     u8            recentOrderTimer;     // Counts down from 15 to 0 when most orders are given,
                                         // or when the unit moves after reaching a patrol location
-    s32       visibilityStatus;         // Flags specifying which players can detect this unit (cloaked/burrowed)
-    Target    secondaryOrderTarget;     // Position part is unused
-    // CLink<CUnit> burrow_link;
-    CUnit*    previousBurrowedUnit;
-    CUnit*    nextBurrowedUnit;
+    s32           visibilityStatus;     // Flags specifying which players can detect this unit (cloaked/burrowed)
+    Target        secondaryOrderTarget; // Position part is unused
+    CLink<CUnit>  burrowLink;
     union
     {
-      struct
-      {
-        Target target;
-      } rally;  // If the unit is rally type
-
-      struct
-      { // CLink<CUnit> power_link;
-        CUnit*  prevPsiProvider;
-        CUnit*  nextPsiProvider;
-      } psiProvider;  // If the unit is psi provider
+      struct { Target target; } rally;  // If the unit is rally type
+      struct { CLink<CUnit> powerLink; } psiProvider;  // If the unit is psi provider
     };
     void*     unitPath;
     u8        pathingCollisionInterval; // unknown
@@ -235,11 +209,9 @@ namespace BW
 #define OFFSET_ASSERT(offset, member) static_assert(offset == offsetof(CUnit, member), "CUnit member not at correct offset")
   OFFSET_ASSERT(0x60, shields);
   OFFSET_ASSERT(0x64, unitType);
-  OFFSET_ASSERT(0x68, previousPlayerUnit);
-  OFFSET_ASSERT(0x6C, nextPlayerUnit);
+  OFFSET_ASSERT(0x68, playerLink);
   OFFSET_ASSERT(0x70, subUnit);
-  OFFSET_ASSERT(0x74, orderQueueHead);
-  OFFSET_ASSERT(0x78, orderQueueTail);
+  OFFSET_ASSERT(0x74, orderQueueLink);
   OFFSET_ASSERT(0x7C, autoTargetUnit);
   OFFSET_ASSERT(0x80, connectedUnit);
   OFFSET_ASSERT(0x84, orderQueueCount);
@@ -279,8 +251,7 @@ namespace BW
   OFFSET_ASSERT(0xC9, carrier.outHangerCount);
   OFFSET_ASSERT(0xC0, fighter);
   OFFSET_ASSERT(0xC0, fighter.parent);
-  OFFSET_ASSERT(0xC4, fighter.prev);
-  OFFSET_ASSERT(0xC8, fighter.next);
+  OFFSET_ASSERT(0xC4, fighter.hangerLink);
   OFFSET_ASSERT(0xCC, fighter.inHanger);
   OFFSET_ASSERT(0xC0, beacon);
   OFFSET_ASSERT(0xC0, beacon._unknown_00);
@@ -310,9 +281,9 @@ namespace BW
   OFFSET_ASSERT(0xD8, resource.resourceGroup);
   OFFSET_ASSERT(0xD9, resource.resourceBelongsToAI);
   OFFSET_ASSERT(0xD0, nydus);
-  OFFSET_ASSERT(0xD0, nydus.exit);
+  OFFSET_ASSERT(0xD0, nydus.pExit);
   OFFSET_ASSERT(0xD0, ghost);
-  OFFSET_ASSERT(0xD0, ghost.nukeDot);
+  OFFSET_ASSERT(0xD0, ghost.pNukeDot);
   OFFSET_ASSERT(0xD0, pylon);
   OFFSET_ASSERT(0xD0, pylon.pPowerTemplate);
   OFFSET_ASSERT(0xD0, silo);
@@ -324,8 +295,7 @@ namespace BW
   OFFSET_ASSERT(0xD0, powerup.spawnTarget);
   OFFSET_ASSERT(0xD0, gatherer);
   OFFSET_ASSERT(0xD0, gatherer.harvestTarget);
-  OFFSET_ASSERT(0xD4, gatherer.prevHarvestUnit);
-  OFFSET_ASSERT(0xD8, gatherer.nextHarvestUnit);
+  OFFSET_ASSERT(0xD4, gatherer.harvestLink);
   OFFSET_ASSERT(0xDC, statusFlags);
   OFFSET_ASSERT(0xE0, resourceType);
   OFFSET_ASSERT(0xE1, wireframeSeed);
@@ -333,13 +303,11 @@ namespace BW
   OFFSET_ASSERT(0xE3, recentOrderTimer);
   OFFSET_ASSERT(0xE4, visibilityStatus);
   OFFSET_ASSERT(0xE8, secondaryOrderTarget);
-  OFFSET_ASSERT(0xF0, previousBurrowedUnit);
-  OFFSET_ASSERT(0xF4, nextBurrowedUnit);
+  OFFSET_ASSERT(0xF0, burrowLink);
   OFFSET_ASSERT(0xF8, rally);
   OFFSET_ASSERT(0xF8, rally.target);
   OFFSET_ASSERT(0xF8, psiProvider);
-  OFFSET_ASSERT(0xF8, psiProvider.prevPsiProvider);
-  OFFSET_ASSERT(0xFC, psiProvider.nextPsiProvider);
+  OFFSET_ASSERT(0xF8, psiProvider.powerLink);
   OFFSET_ASSERT(0x100, unitPath);
   OFFSET_ASSERT(0x104, pathingCollisionInterval);
   OFFSET_ASSERT(0x105, pathingFlags);

@@ -71,6 +71,7 @@
     <ClInclude Include="CBullet.h" />
     <ClInclude Include="CFlingy.h" />
     <ClInclude Include="CImage.h" />
+    <ClInclude Include="CList.h" />
     <ClInclude Include="CSprite.h" />
     <ClInclude Include="CThingy.h" />
     <ClInclude Include="CUnit.h" />

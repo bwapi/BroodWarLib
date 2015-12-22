@@ -2,6 +2,7 @@
 #pragma once
 #include <cstddef>
 #include "SpriteNumber.h"
+#include "CList.h"
 
 namespace BW
 {
@@ -10,15 +11,13 @@ namespace BW
   class CSprite
   {
   public:
-    // CLink<CSprite>
-    CSprite*     prev;
-    CSprite*     next;
-    SpriteNumber spriteType;
-    u8           creator;      // official, player ID that created this sprite
-    u8           selectionIndex; //0 <= selectionIndex <= 11. Index in the selection area at bottom of screen.
-    u8           visibilityMask;  // Player bits indicating the visibility for a player
-    u8           elevation;
-    u8           flags;
+    CLink<CSprite>  link;
+    SpriteNumber    spriteType;
+    u8              creator;      // official, player ID that created this sprite
+    u8              selectionIndex; //0 <= selectionIndex <= 11. Index in the selection area at bottom of screen.
+    u8              visibilityMask;  // Player bits indicating the visibility for a player
+    u8              elevation;
+    u8              flags;
                  /*    0x01  Draw selection circle.
                        0x02
                        0x04
@@ -41,8 +40,7 @@ namespace BW
 
   static_assert(sizeof(CSprite) == 36, "BW::CSprite is incorrect.");
 #define OFFSET_ASSERT(offset, member) static_assert(offset == offsetof(CSprite, member), "CSprite member not at correct offset")
-  OFFSET_ASSERT(0x00, prev);
-  OFFSET_ASSERT(0x04, next);
+  OFFSET_ASSERT(0x00, link);
   OFFSET_ASSERT(0x08, spriteType);
   OFFSET_ASSERT(0x0A, creator);
   OFFSET_ASSERT(0x0B, selectionIndex);

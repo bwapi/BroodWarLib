@@ -78,6 +78,9 @@
     <ClInclude Include="WeaponType.h">
       <Filter>Enumerations</Filter>
     </ClInclude>
+    <ClInclude Include="CList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CUnit.cpp">
