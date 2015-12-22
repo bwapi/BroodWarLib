@@ -2,7 +2,6 @@
 #include <cstddef>
 #include "Types.h"
 
-#include "Position.h"
 #include "Target.h"
 #include "UnitMovementState.h"
 #include "UnitType.h"
@@ -43,13 +42,13 @@ namespace BW
     /*0x074*/ COrder* orderQueueHead;
     /*0x078*/ COrder* orderQueueTail;
 
-    /*0x07C*/ CUnit*  autoTargetUnit;      // The auto-acquired target (Note: This field is actually used for different targets internally, especially by the AI)
-    /*0x080*/ CUnit*  connectedUnit;       // Addon is connected to building (addon has conntected building, but not in other direction  (officially "pAttached")
+    /*0x07C*/ CUnit*  autoTargetUnit;       // The auto-acquired target (Note: This field is actually used for different targets internally, especially by the AI)
+    /*0x080*/ CUnit*  connectedUnit;        // Addon is connected to building (addon has conntected building, but not in other direction  (officially "pAttached")
     /*0x084*/ u8      orderQueueCount;      // @todo Verify   // officially "ubQueuedOrders"
     /*0x085*/ u8      orderQueueTimer;      // counts/cycles down from from 8 to 0 (inclusive). See also 0x122.
     /*0x086*/ u8      _unknown_0x086;       // pathing related?
     /*0x087*/ u8      attackNotifyTimer;    // Prevent "Your forces are under attack." on every attack
-    /*0x088*/ UnitType previousUnitType;     // Stores the type of the unit prior to being morphed/constructed
+    /*0x088*/ UnitType previousUnitType;    // Stores the type of the unit prior to being morphed/constructed
     /*0x08A*/ u8      lastEventTimer;       // countdown that stops being recent when it hits 0 
     /*0x08B*/ u8      lastEventColor;       // 17 = was completed (train, morph), 174 = was attacked
     /*0x08C*/ u16     _unused_0x08C;        // might have originally been RGB from lastEventColor
@@ -57,9 +56,9 @@ namespace BW
     /*0x08F*/ u8      killCount;            // Killcount
     /*0x090*/ u8      lastAttackingPlayer;  // the player that last attacked this unit
     /*0x091*/ u8      secondaryOrderTimer;
-    /*0x092*/ u8      AIActionFlag;           // Internal use by AI only
-    /*0x093*/ u8      userActionFlags;        // some flags that change when the user interacts with the unit
-                                              // 2 = issued an order, 3 = interrupted an order, 4 = self destructing
+    /*0x092*/ u8      AIActionFlag;         // Internal use by AI only
+    /*0x093*/ u8      userActionFlags;      // some flags that change when the user interacts with the unit
+                                            // 2 = issued an order, 3 = interrupted an order, 4 = self destructing
 
     /*0x094*/ u16         currentButtonSet;       // The u16 is a guess, used to be u8
     /*0x096*/ bool        isCloaked;
@@ -217,14 +216,15 @@ namespace BW
       /*0x126*/ u8      acidSporeCount;
       /*0x127*/ u8      acidSporeTime[9];
     } status;
-    /*0x130*/ u16   bulletSpreadSeed;  // Counts up for the number of bullets shot by a unit using
-    // this weapon behaviour and resets after it reaches 12
+    /*0x130*/ u16   bulletSpreadSeed;   // Counts up for the number of bullets shot by a unit using
+                                        // this weapon behaviour and resets after it reaches 12
 
-    /*0x134*/ void* pAI;            // pointer to AI class, we're not using this though  // official name
+    /*0x134*/ void* pAI;                // pointer to AI class  // official name
     /*0x138*/ u16   airStrength;
     /*0x13A*/ u16   groundStrength;
-    rect<u32> finder; // Official names are "posSortXL, posSortXR, posSortYT, posSortYB"
-                      // Ordering for unit boundries in unit finder for binary search
+
+    u32 posSortXL, posSortXR, posSortYT, posSortYB; // official // Ordering for unit boundries in unit finder for binary search
+    
     /*0x14C*/ u8    _repulseUnknown;        // @todo Unknown
     /*0x14D*/ u8    repulseAngle;           // updated only when air unit is being pushed
     /*0x14E*/ u8    bRepMtxX;              //  (mapsizex/1.5 max)   // repulse matrix X/Y
@@ -368,7 +368,10 @@ namespace BW
   static_assert(offsetof(CUnit, pAI) == 0x134, "CUnit member not at correct offset");
   static_assert(offsetof(CUnit, airStrength) == 0x138, "CUnit member not at correct offset");
   static_assert(offsetof(CUnit, groundStrength) == 0x13A, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, finder) == 0x13C, "CUnit member not at correct offset");
+  static_assert(offsetof(CUnit, posSortXL) == 0x13C, "CUnit member not at correct offset");
+  static_assert(offsetof(CUnit, posSortXR) == 0x140, "CUnit member not at correct offset");
+  static_assert(offsetof(CUnit, posSortYT) == 0x144, "CUnit member not at correct offset");
+  static_assert(offsetof(CUnit, posSortYB) == 0x148, "CUnit member not at correct offset");
   static_assert(offsetof(CUnit, _repulseUnknown) == 0x14C, "CUnit member not at correct offset");
   static_assert(offsetof(CUnit, repulseAngle) == 0x14D, "CUnit member not at correct offset");
   static_assert(offsetof(CUnit, bRepMtxX) == 0x14E, "CUnit member not at correct offset");

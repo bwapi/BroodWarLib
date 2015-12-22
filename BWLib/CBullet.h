@@ -11,13 +11,13 @@ namespace BW
   class CBullet : public CFlingy
   {
   public:
-    /*0x60*/ WeaponType weaponType;
-    /*0x61*/ u8         timeRemaining;
-    /*0x62*/ u8         flags;            // 0x01 = miss target; 0x02 = no damage (hallucination)
-    /*0x63*/ u8         remainingBounces; // Bounce count for mutalisk weapon (official name: ubChain)
-    /*0x64*/ CUnit*     sourceUnit;
-    /*0x68*/ CUnit*     nextBounceUnit;   // Next unit for bounce, temporary
-    /*0x6C*/ u8         spreadSeed;       // some sort of cyclic burst counter (used by valkyries, goliath air attack)
+    WeaponType weaponType;
+    u8         timeRemaining;
+    u8         flags;            // 0x01 = miss target; 0x02 = no damage (hallucination)
+    u8         remainingBounces; // Bounce count for mutalisk weapon (official name: ubChain)
+    CUnit*     sourceUnit;
+    CUnit*     nextBounceUnit;   // Next unit for bounce, temporary
+    u8         spreadSeed;       // some sort of cyclic burst counter (used by valkyries, goliath air attack)
   };
 
   static_assert(sizeof(CBullet) == 112, "BW::CBullet is incorrect.");

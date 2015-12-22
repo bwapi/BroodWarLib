@@ -27,9 +27,6 @@
     <ClInclude Include="Target.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Position.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UnitType.h">
       <Filter>Enumerations</Filter>
     </ClInclude>

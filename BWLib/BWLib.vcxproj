@@ -78,7 +78,6 @@
     <ClInclude Include="ImageNumber.h" />
     <ClInclude Include="IScriptAnimation.h" />
     <ClInclude Include="OrderType.h" />
-    <ClInclude Include="Position.h" />
     <ClInclude Include="ResourceType.h" />
     <ClInclude Include="RLEType.h" />
     <ClInclude Include="SpriteNumber.h" />

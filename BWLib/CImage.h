@@ -1,6 +1,5 @@
 #pragma once
 #include "Types.h"
-#include "Position.h"
 #include "IScriptAnimation.h"
 #include "RLEType.h"
 #include "ImageNumber.h"
@@ -40,8 +39,7 @@ namespace BW
         0x0040  - Hidden/Invisible (don't draw)
         0x0080  - UseParentLO
         */
-    /*0x0E*/ s8               horizontalOffset;
-    /*0x0F*/ s8               verticalOffset;
+    /*0x0E*/ point<s8>        offset;
     /*0x10*/ u16              iscriptHeader;
     /*0x12*/ u16              iscriptOffset;
     /*0x14*/ u16              iscriptReturnPosition;
@@ -67,8 +65,7 @@ namespace BW
   static_assert(offsetof(CImage, drawType) == 0x0A, "CImage member not at correct offset");
   static_assert(offsetof(CImage, direction) == 0x0B, "CImage member not at correct offset");
   static_assert(offsetof(CImage, flags) == 0x0C, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, horizontalOffset) == 0x0E, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, verticalOffset) == 0x0F, "CImage member not at correct offset");
+  static_assert(offsetof(CImage, offset) == 0x0E, "CImage member not at correct offset");
   static_assert(offsetof(CImage, iscriptHeader) == 0x10, "CImage member not at correct offset");
   static_assert(offsetof(CImage, iscriptOffset) == 0x12, "CImage member not at correct offset");
   static_assert(offsetof(CImage, iscriptReturnPosition) == 0x14, "CImage member not at correct offset");

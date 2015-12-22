@@ -17,3 +17,11 @@ struct rect
 {
   T left, top, right, bottom;
 };
+
+template <class T>
+struct point
+{
+  T x, y;
+};
+
+using Position = point<s16>;

@@ -15,8 +15,8 @@ namespace BW
     /*0x004*/ CThingy* next;      /**< Pointer to next flingy in the linked list, we use
                                   *   it to iterate units/bullets.
                                   **/
-    /*0x008*/ s32       hitPoints;  // Hit Points of unit (or bullet existence), note that the displayed value in broodwar is ceil(hitPoints/256)
-                                    // Officially called "xLife"
+    /*0x008*/ s32       xLife;  // Hit Points of unit, note that the displayed value in broodwar is ceil(hitPoints/256)
+                                // Set to 1 to indicate existence for non-units. Official.
     /*0x00C*/ CSprite*  sprite;
   };
 
@@ -24,6 +24,6 @@ namespace BW
 
   static_assert(offsetof(CThingy, prev) == 0x00, "CThingy member not at correct offset");
   static_assert(offsetof(CThingy, next) == 0x04, "CThingy member not at correct offset");
-  static_assert(offsetof(CThingy, hitPoints) == 0x08, "CThingy member not at correct offset");
+  static_assert(offsetof(CThingy, xLife) == 0x08, "CThingy member not at correct offset");
   static_assert(offsetof(CThingy, sprite) == 0x0C, "CThingy member not at correct offset");
 }
