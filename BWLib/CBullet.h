@@ -21,12 +21,13 @@ namespace BW
   };
 
   static_assert(sizeof(CBullet) == 112, "BW::CBullet is incorrect.");
-
-  static_assert(offsetof(CBullet, weaponType) == 0x60, "CBullet member not at correct offset");
-  static_assert(offsetof(CBullet, timeRemaining) == 0x61, "CBullet member not at correct offset");
-  static_assert(offsetof(CBullet, flags) == 0x62, "CBullet member not at correct offset");
-  static_assert(offsetof(CBullet, remainingBounces) == 0x63, "CBullet member not at correct offset");
-  static_assert(offsetof(CBullet, sourceUnit) == 0x64, "CBullet member not at correct offset");
-  static_assert(offsetof(CBullet, nextBounceUnit) == 0x68, "CBullet member not at correct offset");
-  static_assert(offsetof(CBullet, spreadSeed) == 0x6C, "CBullet member not at correct offset");
+#define OFFSET_ASSERT(offset, member) static_assert(offset == offsetof(CBullet, member), "CBullet member not at correct offset")
+  OFFSET_ASSERT(0x60, weaponType);
+  OFFSET_ASSERT(0x61, timeRemaining);
+  OFFSET_ASSERT(0x62, flags);
+  OFFSET_ASSERT(0x63, remainingBounces);
+  OFFSET_ASSERT(0x64, sourceUnit);
+  OFFSET_ASSERT(0x68, nextBounceUnit);
+  OFFSET_ASSERT(0x6C, spreadSeed);
+#undef OFFSET_ASSERT
 }

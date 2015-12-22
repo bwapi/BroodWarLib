@@ -22,14 +22,13 @@ namespace BW
     //void drawImage();
 
     //grpFrame      *getCurrentFrame() const;
-    //BW::Position  getPosition() const;
 
-    /*0x00*/ CImage*      prev;
-    /*0x04*/ CImage*      next;
-    /*0x08*/ ImageNumber  imageNumber;    // officially "uwNo"
-    /*0x0A*/ RLEType      drawType;    // officially "ubRLE"
-    /*0x0B*/ u8           direction;
-    /*0x0C*/ u16          flags;
+    CImage*      prev;
+    CImage*      next;
+    ImageNumber  imageNumber;    // officially "uwNo"
+    RLEType      drawType;    // officially "ubRLE"
+    u8           direction;
+    u16          flags;
     /*  0x0001  - Redraw
         0x0002  - Flipped/Mirrored
         0x0004  - FreezeY
@@ -39,46 +38,47 @@ namespace BW
         0x0040  - Hidden/Invisible (don't draw)
         0x0080  - UseParentLO
         */
-    /*0x0E*/ point<s8>        offset;
-    /*0x10*/ u16              iscriptHeader;
-    /*0x12*/ u16              iscriptOffset;
-    /*0x14*/ u16              iscriptReturnPosition;
-    /*0x16*/ IScriptAnimation anim;
-    /*0x17*/ u8               sleep;        // iscript sleep time
-    /*0x18*/ u16              frameSet;
-    /*0x1A*/ u16              frameIndex;
-    /*0x1C*/ Position         mapPosition;
-    /*0x20*/ Position         screenPosition;
-    /*0x24*/ rect<s16>        grpBounds;      // Bounds for GRP frame, only different from normal when part of graphic is out of bounds.
-    /*0x2C*/ GraphicHeader*   GRPFile;
-    /*0x30*/ void*            drawFunctionParam;
-    /*0x34*/ DrawFunction*    drawFunction;    // official
-    /*0x38*/ UpdateFunction*  updateFunction; // official
-    /*0x3C*/ CSprite*         parent;
+    point<s8>        offset;
+    u16              iscriptHeader;
+    u16              iscriptOffset;
+    u16              iscriptReturnPosition;
+    IScriptAnimation anim;
+    u8               sleep;        // iscript sleep time
+    u16              frameSet;
+    u16              frameIndex;
+    Position         mapPosition;
+    Position         screenPosition;
+    rect<s16>        grpBounds;      // Bounds for GRP frame, only different from normal when part of graphic is out of bounds.
+    GraphicHeader*   GRPFile;
+    void*            drawFunctionParam;
+    DrawFunction*    drawFunction;    // official
+    UpdateFunction*  updateFunction;  // official
+    CSprite*         parent;
   };
 
   static_assert(sizeof(CImage) == 64, "BW::CImage is incorrect.");
-
-  static_assert(offsetof(CImage, prev) == 0x00, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, next) == 0x04, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, imageNumber) == 0x08, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, drawType) == 0x0A, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, direction) == 0x0B, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, flags) == 0x0C, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, offset) == 0x0E, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, iscriptHeader) == 0x10, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, iscriptOffset) == 0x12, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, iscriptReturnPosition) == 0x14, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, anim) == 0x16, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, sleep) == 0x17, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, frameSet) == 0x18, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, frameIndex) == 0x1A, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, mapPosition) == 0x1C, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, screenPosition) == 0x20, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, grpBounds) == 0x24, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, GRPFile) == 0x2C, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, drawFunctionParam) == 0x30, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, drawFunction) == 0x34, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, updateFunction) == 0x38, "CImage member not at correct offset");
-  static_assert(offsetof(CImage, parent) == 0x3C, "CImage member not at correct offset");
+#define OFFSET_ASSERT(offset, member) static_assert(offset == offsetof(CImage, member), "CImage member not at correct offset")
+  OFFSET_ASSERT(0x00, prev);
+  OFFSET_ASSERT(0x04, next);
+  OFFSET_ASSERT(0x08, imageNumber);
+  OFFSET_ASSERT(0x0A, drawType);
+  OFFSET_ASSERT(0x0B, direction);
+  OFFSET_ASSERT(0x0C, flags);
+  OFFSET_ASSERT(0x0E, offset);
+  OFFSET_ASSERT(0x10, iscriptHeader);
+  OFFSET_ASSERT(0x12, iscriptOffset);
+  OFFSET_ASSERT(0x14, iscriptReturnPosition);
+  OFFSET_ASSERT(0x16, anim);
+  OFFSET_ASSERT(0x17, sleep);
+  OFFSET_ASSERT(0x18, frameSet);
+  OFFSET_ASSERT(0x1A, frameIndex);
+  OFFSET_ASSERT(0x1C, mapPosition);
+  OFFSET_ASSERT(0x20, screenPosition);
+  OFFSET_ASSERT(0x24, grpBounds);
+  OFFSET_ASSERT(0x2C, GRPFile);
+  OFFSET_ASSERT(0x30, drawFunctionParam);
+  OFFSET_ASSERT(0x34, drawFunction);
+  OFFSET_ASSERT(0x38, updateFunction);
+  OFFSET_ASSERT(0x3C, parent);
+#undef OFFSET_ASSERT
 }

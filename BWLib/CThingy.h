@@ -11,19 +11,20 @@ namespace BW
   {
   public:
     // CLink<CFlingy> link;
-    /*0x000*/ CThingy* prev;
-    /*0x004*/ CThingy* next;      /**< Pointer to next flingy in the linked list, we use
-                                  *   it to iterate units/bullets.
-                                  **/
-    /*0x008*/ s32       xLife;  // Hit Points of unit, note that the displayed value in broodwar is ceil(hitPoints/256)
-                                // Set to 1 to indicate existence for non-units. Official.
-    /*0x00C*/ CSprite*  sprite;
+    CThingy* prev;
+    CThingy* next;      /**< Pointer to next flingy in the linked list, we use
+                        *   it to iterate units/bullets.
+                        **/
+    s32       xLife;  // Hit Points of unit, note that the displayed value in broodwar is ceil(hitPoints/256)
+                      // Set to 1 to indicate existence for non-units. Official.
+    CSprite*  sprite;
   };
 
   static_assert(sizeof(CThingy) == 0x10, "Size of CThingy is incorrect");
-
-  static_assert(offsetof(CThingy, prev) == 0x00, "CThingy member not at correct offset");
-  static_assert(offsetof(CThingy, next) == 0x04, "CThingy member not at correct offset");
-  static_assert(offsetof(CThingy, xLife) == 0x08, "CThingy member not at correct offset");
-  static_assert(offsetof(CThingy, sprite) == 0x0C, "CThingy member not at correct offset");
+#define OFFSET_ASSERT(offset, member) static_assert(offset == offsetof(CThingy, member), "CThingy member not at correct offset")
+  OFFSET_ASSERT(0x00, prev);
+  OFFSET_ASSERT(0x04, next);
+  OFFSET_ASSERT(0x08, xLife);
+  OFFSET_ASSERT(0x0C, sprite);
+#undef OFFSET_ASSERT
 }

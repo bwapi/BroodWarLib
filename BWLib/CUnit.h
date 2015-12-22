@@ -29,53 +29,53 @@ namespace BW
     //int getGroundWeaponCooldown() const;
     //int getAirWeaponCooldown() const;
 
-    /*0x060*/ u32      shields;      // BW shows this value/256, possibly not u32?
-    /*0x064*/ UnitType unitType;        // Specifies the type of unit.
+    u32      shields;      // BW shows this value/256, possibly not u32?
+    UnitType unitType;        // Specifies the type of unit.
 
     // CLink<CUnit> player_link;
-    /*0x068*/ CUnit*  previousPlayerUnit;
-    /*0x06C*/ CUnit*  nextPlayerUnit;
+    CUnit*  previousPlayerUnit;
+    CUnit*  nextPlayerUnit;
 
-    /*0x070*/ CUnit*  subUnit;
+    CUnit*  subUnit;
 
     // CLink<COrder> orderQueue_link;
-    /*0x074*/ COrder* orderQueueHead;
-    /*0x078*/ COrder* orderQueueTail;
+    COrder* orderQueueHead;
+    COrder* orderQueueTail;
 
-    /*0x07C*/ CUnit*  autoTargetUnit;       // The auto-acquired target (Note: This field is actually used for different targets internally, especially by the AI)
-    /*0x080*/ CUnit*  connectedUnit;        // Addon is connected to building (addon has conntected building, but not in other direction  (officially "pAttached")
-    /*0x084*/ u8      orderQueueCount;      // @todo Verify   // officially "ubQueuedOrders"
-    /*0x085*/ u8      orderQueueTimer;      // counts/cycles down from from 8 to 0 (inclusive). See also 0x122.
-    /*0x086*/ u8      _unknown_0x086;       // pathing related?
-    /*0x087*/ u8      attackNotifyTimer;    // Prevent "Your forces are under attack." on every attack
-    /*0x088*/ UnitType previousUnitType;    // Stores the type of the unit prior to being morphed/constructed
-    /*0x08A*/ u8      lastEventTimer;       // countdown that stops being recent when it hits 0 
-    /*0x08B*/ u8      lastEventColor;       // 17 = was completed (train, morph), 174 = was attacked
-    /*0x08C*/ u16     _unused_0x08C;        // might have originally been RGB from lastEventColor
-    /*0x08E*/ u8      rankIncrease;         // Adds this value to the unit's base rank
-    /*0x08F*/ u8      killCount;            // Killcount
-    /*0x090*/ u8      lastAttackingPlayer;  // the player that last attacked this unit
-    /*0x091*/ u8      secondaryOrderTimer;
-    /*0x092*/ u8      AIActionFlag;         // Internal use by AI only
-    /*0x093*/ u8      userActionFlags;      // some flags that change when the user interacts with the unit
-                                            // 2 = issued an order, 3 = interrupted an order, 4 = self destructing
+    CUnit*  autoTargetUnit;       // The auto-acquired target (Note: This field is actually used for different targets internally, especially by the AI)
+    CUnit*  connectedUnit;        // Addon is connected to building (addon has conntected building, but not in other direction  (officially "pAttached")
+    u8      orderQueueCount;      // @todo Verify   // officially "ubQueuedOrders"
+    u8      orderQueueTimer;      // counts/cycles down from from 8 to 0 (inclusive). See also 0x122.
+    u8      _unknown_0x086;       // pathing related?
+    u8      attackNotifyTimer;    // Prevent "Your forces are under attack." on every attack
+    UnitType previousUnitType;    // Stores the type of the unit prior to being morphed/constructed
+    u8      lastEventTimer;       // countdown that stops being recent when it hits 0 
+    u8      lastEventColor;       // 17 = was completed (train, morph), 174 = was attacked
+    u16     _unused_0x08C;        // might have originally been RGB from lastEventColor
+    u8      rankIncrease;         // Adds this value to the unit's base rank
+    u8      killCount;            // Killcount
+    u8      lastAttackingPlayer;  // the player that last attacked this unit
+    u8      secondaryOrderTimer;
+    u8      AIActionFlag;         // Internal use by AI only
+    u8      userActionFlags;      // some flags that change when the user interacts with the unit
+                                  // 2 = issued an order, 3 = interrupted an order, 4 = self destructing
 
-    /*0x094*/ u16         currentButtonSet;       // The u16 is a guess, used to be u8
-    /*0x096*/ bool        isCloaked;
-    /*0x097*/ UnitMovementState movementState;          // A value based on conditions related to pathing, see Path.h for info
-    /*0x098*/ UnitType    buildQueue[5];          //< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. 
-    /*0x0A2*/ u16         energy;                 //< Energy Position   // officially "xwMagic"
-    /*0x0A4*/ u8          buildQueueSlot;         //< Index of active unit in #buildQueue. 
-    /*0x0A5*/ u8          uniquenessIdentifier;   //< A byte used to determine uniqueness of the unit
-    /*0x0A6*/ OrderType   secondaryOrderType;       //< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) 
-    /*0x0A7*/ u8          buildingOverlayState;   // 0 means the building has the largest amount of fire/blood
-    /*0x0A8*/ u16         hpGain;                 //< hp gained on construction or repair
-    /*0x0AA*/ u16         shieldGain;             //< Shield gain on construction
-    /*0x0AC*/ u16         remainingBuildTime;     //< Remaining bulding time; This is also the timer for powerups (flags) to return to their original location.
-    /*0x0AE*/ u16         previousHP;             // The HP of the unit before it changed (example Drone->Hatchery, the Drone's HP will be stored here)
-    /*0x0B0*/ u16         loadedUnitIndex[8];     // officially called "uwTransport[8]"
-    ///////////////
-    /*0x0C0*/ union
+    u16         currentButtonSet;       // The u16 is a guess, used to be u8
+    bool        isCloaked;
+    UnitMovementState movementState;          // A value based on conditions related to pathing, see Path.h for info
+    UnitType    buildQueue[5];          //< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. 
+    u16         energy;                 //< Energy Position   // officially "xwMagic"
+    u8          buildQueueSlot;         //< Index of active unit in #buildQueue. 
+    u8          uniquenessIdentifier;   //< A byte used to determine uniqueness of the unit
+    OrderType   secondaryOrderType;       //< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) 
+    u8          buildingOverlayState;   // 0 means the building has the largest amount of fire/blood
+    u16         hpGain;                 //< hp gained on construction or repair
+    u16         shieldGain;             //< Shield gain on construction
+    u16         remainingBuildTime;     //< Remaining bulding time; This is also the timer for powerups (flags) to return to their original location.
+    u16         previousHP;             // The HP of the unit before it changed (example Drone->Hatchery, the Drone's HP will be stored here)
+    u16         loadedUnitIndex[8];     // officially called "uwTransport[8]"
+    
+    union
     {
       struct
       {
@@ -84,19 +84,19 @@ namespace BW
 
       struct
       {
-        CUnit*  pInHanger;     // 0   first child inside the hanger    // official
-        CUnit*  pOutHanger;    // 4   first child outside the hanger
-        u8      inHangerCount;      // 8   number inside the hanger
-        u8      outHangerCount;     // 9   number outside the hanger
+        CUnit*  pInHanger;          // first child inside the hanger    // official
+        CUnit*  pOutHanger;         // first child outside the hanger
+        u8      inHangerCount;      // number inside the hanger
+        u8      outHangerCount;     // number outside the hanger
       } carrier; // also applies to reaver (Carrier is official)
 
       struct
       {
-        CUnit*  parent;    // 0
+        CUnit*  parent;
         // CLink<CUnit> hanger_link;
-        CUnit*  prev;      // 4
-        CUnit*  next;      // 8
-        bool    inHanger;   // C (is this wrong?)
+        CUnit*  prev;
+        CUnit*  next;
+        bool    inHanger;   // (is this wrong?)
       } fighter;  // also applies to scarab
 
       struct
@@ -108,36 +108,36 @@ namespace BW
 
       struct
       {
-        CUnit*      addon;               // 0
-        UnitType    addonBuildType;       // 4
-        u16         upgradeResearchTime;  // 6
-        TechType    techType;             // 8
-        UpgradeType upgradeType;          // 9
-        u8          larvaTimer;           // A
-        u8          landingTimer;         // B
-        u8          creepTimer;           // C
-        u8          upgradeLevel;         // D
+        CUnit*      addon;
+        UnitType    addonBuildType;
+        u16         upgradeResearchTime;
+        TechType    techType;
+        UpgradeType upgradeType;
+        u8          larvaTimer;
+        u8          landingTimer;
+        u8          creepTimer;
+        u8          upgradeLevel;
       } building;
 
       struct
       {
-        CUnit*    pPowerup;                // 0    // official
+        CUnit*    pPowerup;
         Target    targetResource;
-        u16       repairResourceLossTimer;  // C
-        bool      isCarryingSomething;      // E    // There is a "ubIsHarvesting" somewhere
-        u8        resourceCarryCount;       // F
+        u16       repairResourceLossTimer;
+        bool      isCarryingSomething;  // There is a "ubIsHarvesting" somewhere
+        u8        resourceCarryCount;
       } worker;   // Official name, but there is also a "CUnit::WorkerList::pHarvestBldg" somewhere
     };
-    ///////////////
-    /*0x0D0*/ union
+
+    union
     {
       struct
       {
         u16     resourceCount;  // amount of resources
         u8      resourceIscript;
         u8      gatherQueueCount;
-        CUnit*  nextGatherer;    // 4  // pointer to the next workerunit waiting in line to gather
-        u8      resourceGroup;    // 8
+        CUnit*  nextGatherer;     // pointer to the next worker unit waiting in line to gather
+        u8      resourceGroup;
         u8      resourceBelongsToAI;
       } resource;  // When the unit is resource container
       struct { CUnit*   exit; } nydus; // connected nydius canal
@@ -146,7 +146,7 @@ namespace BW
       struct
       {
         CUnit* pNuke;   // attached nuke    // official name
-        bool bReady;      // 4   // official name
+        bool bReady;    // official name
       } silo;   // Should be "CUnit::Silo::"
       struct
       {
@@ -158,24 +158,24 @@ namespace BW
       } powerup;
       struct
       {
-        CUnit* harvestTarget;           // 0
+        CUnit* harvestTarget;
         // CLINK<CUnit> harvest_link;
-        CUnit* prevHarvestUnit;         // 4   // When there is a gather conflict
-        CUnit* nextHarvestUnit;         // 8
+        CUnit* prevHarvestUnit;       // When there is a gather conflict
+        CUnit* nextHarvestUnit;
       } gatherer; //there is also a "CUnit::WorkerList::pHarvestBldg" somewhere
     };
-    /*0x0DC*/ u32       statusFlags;
-    /*0x0E0*/ ResourceType resourceType;         // Resource being held by worker: 1 = gas, 2 = ore
-    /*0x0E1*/ u8        wireframeSeed;
-    /*0x0E2*/ u8        secondaryOrderState;
-    /*0x0E3*/ u8        recentOrderTimer;     // Counts down from 15 to 0 when most orders are given,
-    // or when the unit moves after reaching a patrol location
-    /*0x0E4*/ s32       visibilityStatus;     // Flags specifying which players can detect this unit (cloaked/burrowed)
-    /*0x0E8*/ Target    secondaryOrderTarget;       // Position part is unused
+    u32           statusFlags;
+    ResourceType  resourceType;         // Resource being held by worker: 1 = gas, 2 = ore
+    u8            wireframeSeed;
+    u8            secondaryOrderState;
+    u8            recentOrderTimer;     // Counts down from 15 to 0 when most orders are given,
+                                        // or when the unit moves after reaching a patrol location
+    s32       visibilityStatus;         // Flags specifying which players can detect this unit (cloaked/burrowed)
+    Target    secondaryOrderTarget;     // Position part is unused
     // CLink<CUnit> burrow_link;
-    /*0x0F0*/ CUnit*    previousBurrowedUnit;
-    /*0x0F4*/ CUnit*    nextBurrowedUnit;
-    /*0x0F8*/ union
+    CUnit*    previousBurrowedUnit;
+    CUnit*    nextBurrowedUnit;
+    union
     {
       struct
       {
@@ -188,193 +188,193 @@ namespace BW
         CUnit*  nextPsiProvider;
       } psiProvider;  // If the unit is psi provider
     };
-    /*0x100*/ void*     unitPath;
-    /*0x104*/ u8        pathingCollisionInterval; // unknown
-    /*0x105*/ u8        pathingFlags;             // 0x01 = uses pathing; 0x02 = ?; 0x04 = ?
-    /*0x106*/ u8        _unused_0x106;
-    /*0x107*/ bool      isBeingHealed;    // 1 if a medic is currently healing this unit
-    /*0x108*/ rect<s16> contourBounds;    // a rect that specifies the closest contour (collision) Position
+    void*     unitPath;
+    u8        pathingCollisionInterval; // unknown
+    u8        pathingFlags;             // 0x01 = uses pathing; 0x02 = ?; 0x04 = ?
+    u8        _unused_0x106;
+    bool      isBeingHealed;    // 1 if a medic is currently healing this unit
+    rect<s16> contourBounds;    // a rect that specifies the closest contour (collision) Position
     struct
     {
-      /*0x110*/ u16     removeTimer;      //  does not apply to scanner sweep
-      /*0x112*/ u16     defenseMatrixDamage;
-      /*0x114*/ u8      defenseMatrixTimer;
-      /*0x115*/ u8      stimTimer;
-      /*0x116*/ u8      ensnareTimer;
-      /*0x117*/ u8      lockdownTimer;
-      /*0x118*/ u8      irradiateTimer;
-      /*0x119*/ u8      stasisTimer;
-      /*0x11A*/ u8      plagueTimer;
-      /*0x11B*/ u8      stormTimer;
-      /*0x11C*/ CUnit*  irradiatedBy;
-      /*0x120*/ u8      irradiatePlayerID;
-      /*0x121*/ u8      parasiteFlags;    // bitmask identifying which players have parasited this unit
-      /*0x122*/ u8      cycleCounter;     // counts/cycles up from 0 to 7 (inclusive). See also 0x85.
-      /*0x123*/ bool    isBlind;
-      /*0x124*/ u8      maelstromTimer;
-      /*0x125*/ u8      _unused_0x125;    // ?? Might be afterburner timer or ultralisk roar timer
-      /*0x126*/ u8      acidSporeCount;
-      /*0x127*/ u8      acidSporeTime[9];
+      u16     removeTimer;      //  does not apply to scanner sweep
+      u16     defenseMatrixDamage;
+      u8      defenseMatrixTimer;
+      u8      stimTimer;
+      u8      ensnareTimer;
+      u8      lockdownTimer;
+      u8      irradiateTimer;
+      u8      stasisTimer;
+      u8      plagueTimer;
+      u8      stormTimer;
+      CUnit*  irradiatedBy;
+      u8      irradiatePlayerID;
+      u8      parasiteFlags;    // bitmask identifying which players have parasited this unit
+      u8      cycleCounter;     // counts/cycles up from 0 to 7 (inclusive). See also 0x85.
+      bool    isBlind;
+      u8      maelstromTimer;
+      u8      _unused_0x125;    // ?? Might be afterburner timer or ultralisk roar timer
+      u8      acidSporeCount;
+      u8      acidSporeTime[9];
     } status;
-    /*0x130*/ u16   bulletSpreadSeed;   // Counts up for the number of bullets shot by a unit using
-                                        // this weapon behaviour and resets after it reaches 12
+    u16   bulletSpreadSeed;   // Counts up for the number of bullets shot by a unit using
+                              // this weapon behaviour and resets after it reaches 12
 
-    /*0x134*/ void* pAI;                // pointer to AI class  // official name
-    /*0x138*/ u16   airStrength;
-    /*0x13A*/ u16   groundStrength;
+    void* pAI;                // pointer to AI class  // official name
+    u16   airStrength;
+    u16   groundStrength;
 
     u32 posSortXL, posSortXR, posSortYT, posSortYB; // official // Ordering for unit boundries in unit finder for binary search
     
-    /*0x14C*/ u8    _repulseUnknown;        // @todo Unknown
-    /*0x14D*/ u8    repulseAngle;           // updated only when air unit is being pushed
-    /*0x14E*/ u8    bRepMtxX;              //  (mapsizex/1.5 max)   // repulse matrix X/Y
-    /*0x14F*/ u8    bRepMtxY;              //  (mapsizex/1.5 max)
+    u8        _repulseUnknown;    // @todo Unknown
+    u8        repulseAngle;       // updated only when air unit is being pushed
+    point<u8> repulseVelocity;    // Guess. Official names are bRepMtxX and bRepMtxY.
+                                  // (mapsize/1.5 max) < don't remember what this means?
   };
 
   static_assert(sizeof(CUnit) == 336, "CUnit is incorrect.");
-
-  static_assert(offsetof(CUnit, shields) == 0x60, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, unitType) == 0x64, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, previousPlayerUnit) == 0x68, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, nextPlayerUnit) == 0x6C, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, subUnit) == 0x70, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, orderQueueHead) == 0x74, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, orderQueueTail) == 0x78, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, autoTargetUnit) == 0x7C, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, connectedUnit) == 0x80, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, orderQueueCount) == 0x84, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, orderQueueTimer) == 0x85, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, _unknown_0x086) == 0x86, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, attackNotifyTimer) == 0x87, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, previousUnitType) == 0x88, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, lastEventTimer) == 0x8A, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, lastEventColor) == 0x8B, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, _unused_0x08C) == 0x8C, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, rankIncrease) == 0x8E, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, killCount) == 0x8F, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, lastAttackingPlayer) == 0x90, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, secondaryOrderTimer) == 0x91, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, AIActionFlag) == 0x92, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, userActionFlags) == 0x93, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, currentButtonSet) == 0x94, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, isCloaked) == 0x96, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, movementState) == 0x97, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, buildQueue) == 0x98, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, energy) == 0xA2, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, buildQueueSlot) == 0xA4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, uniquenessIdentifier) == 0xA5, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, secondaryOrderType) == 0xA6, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, buildingOverlayState) == 0xA7, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, hpGain) == 0xA8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, shieldGain) == 0xAA, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, remainingBuildTime) == 0xAC, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, previousHP) == 0xAE, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, loadedUnitIndex) == 0xB0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, vulture) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, vulture.spiderMineCount) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, carrier) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, carrier.pInHanger) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, carrier.pOutHanger) == 0xC4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, carrier.inHangerCount) == 0xC8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, carrier.outHangerCount) == 0xC9, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, fighter) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, fighter.parent) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, fighter.prev) == 0xC4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, fighter.next) == 0xC8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, fighter.inHanger) == 0xCC, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, beacon) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, beacon._unknown_00) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, beacon._unknown_04) == 0xC4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, beacon.flagSpawnFrame) == 0xC8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building.addon) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building.addonBuildType) == 0xC4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building.upgradeResearchTime) == 0xC6, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building.techType) == 0xC8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building.upgradeType) == 0xC9, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building.larvaTimer) == 0xCA, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building.landingTimer) == 0xCB, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building.creepTimer) == 0xCC, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, building.upgradeLevel) == 0xCD, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, worker) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, worker.pPowerup) == 0xC0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, worker.targetResource) == 0xC4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, worker.repairResourceLossTimer) == 0xCC, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, worker.isCarryingSomething) == 0xCE, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, worker.resourceCarryCount) == 0xCF, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, resource) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, resource.resourceCount) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, resource.resourceIscript) == 0xD2, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, resource.gatherQueueCount) == 0xD3, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, resource.nextGatherer) == 0xD4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, resource.resourceGroup) == 0xD8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, resource.resourceBelongsToAI) == 0xD9, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, nydus) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, nydus.exit) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, ghost) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, ghost.nukeDot) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, pylon) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, pylon.pPowerTemplate) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, silo) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, silo.pNuke) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, silo.bReady) == 0xD4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, hatchery) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, hatchery.larvaSpawnInfluence) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, powerup) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, powerup.spawnTarget) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, gatherer) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, gatherer.harvestTarget) == 0xD0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, gatherer.prevHarvestUnit) == 0xD4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, gatherer.nextHarvestUnit) == 0xD8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, statusFlags) == 0xDC, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, resourceType) == 0xE0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, wireframeSeed) == 0xE1, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, secondaryOrderState) == 0xE2, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, recentOrderTimer) == 0xE3, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, visibilityStatus) == 0xE4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, secondaryOrderTarget) == 0xE8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, previousBurrowedUnit) == 0xF0, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, nextBurrowedUnit) == 0xF4, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, rally) == 0xF8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, rally.target) == 0xF8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, psiProvider) == 0xF8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, psiProvider.prevPsiProvider) == 0xF8, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, psiProvider.nextPsiProvider) == 0xFC, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, unitPath) == 0x100, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, pathingCollisionInterval) == 0x104, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, pathingFlags) == 0x105, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, isBeingHealed) == 0x107, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, contourBounds) == 0x108, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status) == 0x110, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.removeTimer) == 0x110, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.defenseMatrixDamage) == 0x112, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.defenseMatrixTimer) == 0x114, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.stimTimer) == 0x115, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.ensnareTimer) == 0x116, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.lockdownTimer) == 0x117, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.irradiateTimer) == 0x118, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.stasisTimer) == 0x119, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.plagueTimer) == 0x11A, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.stormTimer) == 0x11B, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.irradiatedBy) == 0x11C, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.irradiatePlayerID) == 0x120, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.parasiteFlags) == 0x121, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.cycleCounter) == 0x122, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.isBlind) == 0x123, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.maelstromTimer) == 0x124, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.acidSporeCount) == 0x126, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, status.acidSporeTime) == 0x127, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, bulletSpreadSeed) == 0x130, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, pAI) == 0x134, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, airStrength) == 0x138, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, groundStrength) == 0x13A, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, posSortXL) == 0x13C, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, posSortXR) == 0x140, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, posSortYT) == 0x144, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, posSortYB) == 0x148, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, _repulseUnknown) == 0x14C, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, repulseAngle) == 0x14D, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, bRepMtxX) == 0x14E, "CUnit member not at correct offset");
-  static_assert(offsetof(CUnit, bRepMtxY) == 0x14F, "CUnit member not at correct offset");
+#define OFFSET_ASSERT(offset, member) static_assert(offset == offsetof(CUnit, member), "CUnit member not at correct offset")
+  OFFSET_ASSERT(0x60, shields);
+  OFFSET_ASSERT(0x64, unitType);
+  OFFSET_ASSERT(0x68, previousPlayerUnit);
+  OFFSET_ASSERT(0x6C, nextPlayerUnit);
+  OFFSET_ASSERT(0x70, subUnit);
+  OFFSET_ASSERT(0x74, orderQueueHead);
+  OFFSET_ASSERT(0x78, orderQueueTail);
+  OFFSET_ASSERT(0x7C, autoTargetUnit);
+  OFFSET_ASSERT(0x80, connectedUnit);
+  OFFSET_ASSERT(0x84, orderQueueCount);
+  OFFSET_ASSERT(0x85, orderQueueTimer);
+  OFFSET_ASSERT(0x86, _unknown_0x086);
+  OFFSET_ASSERT(0x87, attackNotifyTimer);
+  OFFSET_ASSERT(0x88, previousUnitType);
+  OFFSET_ASSERT(0x8A, lastEventTimer);
+  OFFSET_ASSERT(0x8B, lastEventColor);
+  OFFSET_ASSERT(0x8C, _unused_0x08C);
+  OFFSET_ASSERT(0x8E, rankIncrease);
+  OFFSET_ASSERT(0x8F, killCount);
+  OFFSET_ASSERT(0x90, lastAttackingPlayer);
+  OFFSET_ASSERT(0x91, secondaryOrderTimer);
+  OFFSET_ASSERT(0x92, AIActionFlag);
+  OFFSET_ASSERT(0x93, userActionFlags);
+  OFFSET_ASSERT(0x94, currentButtonSet);
+  OFFSET_ASSERT(0x96, isCloaked);
+  OFFSET_ASSERT(0x97, movementState);
+  OFFSET_ASSERT(0x98, buildQueue);
+  OFFSET_ASSERT(0xA2, energy);
+  OFFSET_ASSERT(0xA4, buildQueueSlot);
+  OFFSET_ASSERT(0xA5, uniquenessIdentifier);
+  OFFSET_ASSERT(0xA6, secondaryOrderType);
+  OFFSET_ASSERT(0xA7, buildingOverlayState);
+  OFFSET_ASSERT(0xA8, hpGain);
+  OFFSET_ASSERT(0xAA, shieldGain);
+  OFFSET_ASSERT(0xAC, remainingBuildTime);
+  OFFSET_ASSERT(0xAE, previousHP);
+  OFFSET_ASSERT(0xB0, loadedUnitIndex);
+  OFFSET_ASSERT(0xC0, vulture);
+  OFFSET_ASSERT(0xC0, vulture.spiderMineCount);
+  OFFSET_ASSERT(0xC0, carrier);
+  OFFSET_ASSERT(0xC0, carrier.pInHanger);
+  OFFSET_ASSERT(0xC4, carrier.pOutHanger);
+  OFFSET_ASSERT(0xC8, carrier.inHangerCount);
+  OFFSET_ASSERT(0xC9, carrier.outHangerCount);
+  OFFSET_ASSERT(0xC0, fighter);
+  OFFSET_ASSERT(0xC0, fighter.parent);
+  OFFSET_ASSERT(0xC4, fighter.prev);
+  OFFSET_ASSERT(0xC8, fighter.next);
+  OFFSET_ASSERT(0xCC, fighter.inHanger);
+  OFFSET_ASSERT(0xC0, beacon);
+  OFFSET_ASSERT(0xC0, beacon._unknown_00);
+  OFFSET_ASSERT(0xC4, beacon._unknown_04);
+  OFFSET_ASSERT(0xC8, beacon.flagSpawnFrame);
+  OFFSET_ASSERT(0xC0, building);
+  OFFSET_ASSERT(0xC0, building.addon);
+  OFFSET_ASSERT(0xC4, building.addonBuildType);
+  OFFSET_ASSERT(0xC6, building.upgradeResearchTime);
+  OFFSET_ASSERT(0xC8, building.techType);
+  OFFSET_ASSERT(0xC9, building.upgradeType);
+  OFFSET_ASSERT(0xCA, building.larvaTimer);
+  OFFSET_ASSERT(0xCB, building.landingTimer);
+  OFFSET_ASSERT(0xCC, building.creepTimer);
+  OFFSET_ASSERT(0xCD, building.upgradeLevel);
+  OFFSET_ASSERT(0xC0, worker);
+  OFFSET_ASSERT(0xC0, worker.pPowerup);
+  OFFSET_ASSERT(0xC4, worker.targetResource);
+  OFFSET_ASSERT(0xCC, worker.repairResourceLossTimer);
+  OFFSET_ASSERT(0xCE, worker.isCarryingSomething);
+  OFFSET_ASSERT(0xCF, worker.resourceCarryCount);
+  OFFSET_ASSERT(0xD0, resource);
+  OFFSET_ASSERT(0xD0, resource.resourceCount);
+  OFFSET_ASSERT(0xD2, resource.resourceIscript);
+  OFFSET_ASSERT(0xD3, resource.gatherQueueCount);
+  OFFSET_ASSERT(0xD4, resource.nextGatherer);
+  OFFSET_ASSERT(0xD8, resource.resourceGroup);
+  OFFSET_ASSERT(0xD9, resource.resourceBelongsToAI);
+  OFFSET_ASSERT(0xD0, nydus);
+  OFFSET_ASSERT(0xD0, nydus.exit);
+  OFFSET_ASSERT(0xD0, ghost);
+  OFFSET_ASSERT(0xD0, ghost.nukeDot);
+  OFFSET_ASSERT(0xD0, pylon);
+  OFFSET_ASSERT(0xD0, pylon.pPowerTemplate);
+  OFFSET_ASSERT(0xD0, silo);
+  OFFSET_ASSERT(0xD0, silo.pNuke);
+  OFFSET_ASSERT(0xD4, silo.bReady);
+  OFFSET_ASSERT(0xD0, hatchery);
+  OFFSET_ASSERT(0xD0, hatchery.larvaSpawnInfluence);
+  OFFSET_ASSERT(0xD0, powerup);
+  OFFSET_ASSERT(0xD0, powerup.spawnTarget);
+  OFFSET_ASSERT(0xD0, gatherer);
+  OFFSET_ASSERT(0xD0, gatherer.harvestTarget);
+  OFFSET_ASSERT(0xD4, gatherer.prevHarvestUnit);
+  OFFSET_ASSERT(0xD8, gatherer.nextHarvestUnit);
+  OFFSET_ASSERT(0xDC, statusFlags);
+  OFFSET_ASSERT(0xE0, resourceType);
+  OFFSET_ASSERT(0xE1, wireframeSeed);
+  OFFSET_ASSERT(0xE2, secondaryOrderState);
+  OFFSET_ASSERT(0xE3, recentOrderTimer);
+  OFFSET_ASSERT(0xE4, visibilityStatus);
+  OFFSET_ASSERT(0xE8, secondaryOrderTarget);
+  OFFSET_ASSERT(0xF0, previousBurrowedUnit);
+  OFFSET_ASSERT(0xF4, nextBurrowedUnit);
+  OFFSET_ASSERT(0xF8, rally);
+  OFFSET_ASSERT(0xF8, rally.target);
+  OFFSET_ASSERT(0xF8, psiProvider);
+  OFFSET_ASSERT(0xF8, psiProvider.prevPsiProvider);
+  OFFSET_ASSERT(0xFC, psiProvider.nextPsiProvider);
+  OFFSET_ASSERT(0x100, unitPath);
+  OFFSET_ASSERT(0x104, pathingCollisionInterval);
+  OFFSET_ASSERT(0x105, pathingFlags);
+  OFFSET_ASSERT(0x107, isBeingHealed);
+  OFFSET_ASSERT(0x108, contourBounds);
+  OFFSET_ASSERT(0x110, status);
+  OFFSET_ASSERT(0x110, status.removeTimer);
+  OFFSET_ASSERT(0x112, status.defenseMatrixDamage);
+  OFFSET_ASSERT(0x114, status.defenseMatrixTimer);
+  OFFSET_ASSERT(0x115, status.stimTimer);
+  OFFSET_ASSERT(0x116, status.ensnareTimer);
+  OFFSET_ASSERT(0x117, status.lockdownTimer);
+  OFFSET_ASSERT(0x118, status.irradiateTimer);
+  OFFSET_ASSERT(0x119, status.stasisTimer);
+  OFFSET_ASSERT(0x11A, status.plagueTimer);
+  OFFSET_ASSERT(0x11B, status.stormTimer);
+  OFFSET_ASSERT(0x11C, status.irradiatedBy);
+  OFFSET_ASSERT(0x120, status.irradiatePlayerID);
+  OFFSET_ASSERT(0x121, status.parasiteFlags);
+  OFFSET_ASSERT(0x122, status.cycleCounter);
+  OFFSET_ASSERT(0x123, status.isBlind);
+  OFFSET_ASSERT(0x124, status.maelstromTimer);
+  OFFSET_ASSERT(0x126, status.acidSporeCount);
+  OFFSET_ASSERT(0x127, status.acidSporeTime);
+  OFFSET_ASSERT(0x130, bulletSpreadSeed);
+  OFFSET_ASSERT(0x134, pAI);
+  OFFSET_ASSERT(0x138, airStrength);
+  OFFSET_ASSERT(0x13A, groundStrength);
+  OFFSET_ASSERT(0x13C, posSortXL);
+  OFFSET_ASSERT(0x140, posSortXR);
+  OFFSET_ASSERT(0x144, posSortYT);
+  OFFSET_ASSERT(0x148, posSortYB);
+  OFFSET_ASSERT(0x14C, _repulseUnknown);
+  OFFSET_ASSERT(0x14D, repulseAngle);
+  OFFSET_ASSERT(0x14E, repulseVelocity);
+#undef OFFSET_ASSERT
 };
 
